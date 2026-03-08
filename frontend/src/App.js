@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
+import { BrowserRouter, Routes, Route, Link, useParams, useNavigate } from "react-router-dom";
 import { 
   Phone, Mail, MapPin, Clock, Menu, X, ChevronRight, ChevronDown,
   Users, Briefcase, Building2, Scale, FileText, Shield, Heart,
   Gavel, HandCoins, Home, UserCheck, Award, MessageCircle, Send,
-  CheckCircle, ArrowRight, Star, Calendar
+  CheckCircle, ArrowRight, Star, Calendar, ArrowLeft
 } from "lucide-react";
 import {
   Accordion,
@@ -17,6 +18,250 @@ const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 const WHATSAPP_NUMBER = "56984345350";
 const WHATSAPP_LINK = `https://wa.me/${WHATSAPP_NUMBER}?text=Hola,%20me%20gustaría%20consultar%20sobre%20sus%20servicios%20legales.`;
+
+// ============================================
+// BLOG DATA
+// ============================================
+const blogArticles = [
+  {
+    id: "despido-injustificado",
+    title: "¿Qué hacer ante un despido injustificado?",
+    excerpt: "Conozca sus derechos laborales y los pasos a seguir si ha sido despedido sin causa justificada.",
+    category: "Derecho Laboral",
+    date: "15 Enero 2026",
+    author: "Joaquín Ferrada Loaiza",
+    readTime: "5 min",
+    content: `
+      <h2>¿Qué es un despido injustificado?</h2>
+      <p>Un despido injustificado ocurre cuando el empleador termina la relación laboral sin una causa legal válida contemplada en el Código del Trabajo. En Chile, las causales de despido están estrictamente reguladas, y si su empleador no puede demostrar una razón legítima, usted tiene derecho a una indemnización adicional.</p>
+      
+      <h2>¿Cuáles son sus derechos?</h2>
+      <p>Si ha sido despedido injustificadamente, tiene derecho a:</p>
+      <ul>
+        <li><strong>Indemnización por años de servicio:</strong> Un mes de sueldo por cada año trabajado, con un tope de 11 años.</li>
+        <li><strong>Indemnización sustitutiva del aviso previo:</strong> Un mes de sueldo si no le dieron aviso con 30 días de anticipación.</li>
+        <li><strong>Recargo legal:</strong> Entre un 30% y 100% adicional sobre la indemnización, dependiendo de la causal invocada.</li>
+        <li><strong>Vacaciones proporcionales:</strong> Los días de vacaciones no utilizados.</li>
+      </ul>
+      
+      <h2>¿Qué pasos debe seguir?</h2>
+      <p><strong>1. Revise su carta de despido:</strong> La ley exige que el empleador entregue una carta explicando las razones del despido dentro de los 3 días hábiles siguientes.</p>
+      <p><strong>2. Guarde toda la documentación:</strong> Contratos, liquidaciones, correos electrónicos y cualquier prueba que respalde su caso.</p>
+      <p><strong>3. Actúe rápidamente:</strong> Tiene 60 días hábiles desde el despido para presentar una demanda ante el Juzgado del Trabajo.</p>
+      <p><strong>4. Busque asesoría legal:</strong> Un abogado especializado puede evaluar su caso y determinar la mejor estrategia.</p>
+      
+      <h2>¿Cuándo contactar a un abogado?</h2>
+      <p>Es recomendable buscar asesoría legal lo antes posible, especialmente si:</p>
+      <ul>
+        <li>No está de acuerdo con la causal invocada</li>
+        <li>No recibió carta de despido</li>
+        <li>Le ofrecen un finiquito menor al que le corresponde</li>
+        <li>Sufrió acoso o discriminación</li>
+      </ul>
+      
+      <p>En Sandoval Abogados contamos con especialistas en derecho laboral que pueden orientarle sobre sus derechos y representarle ante los tribunales del trabajo.</p>
+    `
+  },
+  {
+    id: "pension-alimentos",
+    title: "Guía completa sobre pensión de alimentos",
+    excerpt: "Todo lo que necesita saber sobre cómo solicitar, modificar o defender una pensión alimenticia.",
+    category: "Derecho de Familia",
+    date: "10 Enero 2026",
+    author: "Juan Ignacio Sandoval",
+    readTime: "7 min",
+    content: `
+      <h2>¿Qué es la pensión de alimentos?</h2>
+      <p>La pensión de alimentos es una obligación legal que tiene por objeto cubrir las necesidades básicas de los hijos, incluyendo alimentación, educación, salud, vivienda y vestuario. En Chile, ambos padres tienen el deber de contribuir a la mantención de sus hijos en proporción a sus capacidades económicas.</p>
+      
+      <h2>¿Quiénes pueden solicitar alimentos?</h2>
+      <ul>
+        <li>Hijos menores de edad</li>
+        <li>Hijos mayores de edad que estén estudiando (hasta los 28 años)</li>
+        <li>Hijos con discapacidad</li>
+        <li>El cónyuge en ciertos casos</li>
+      </ul>
+      
+      <h2>¿Cómo se calcula el monto?</h2>
+      <p>El monto de la pensión se determina considerando:</p>
+      <ul>
+        <li><strong>Necesidades del alimentario:</strong> Gastos reales en educación, salud, alimentación, vestuario, etc.</li>
+        <li><strong>Capacidad económica del alimentante:</strong> Ingresos, patrimonio y cargas familiares.</li>
+        <li><strong>Mínimo legal:</strong> 40% del ingreso mínimo mensual por un hijo; 30% por cada hijo adicional.</li>
+        <li><strong>Máximo legal:</strong> 50% de los ingresos del alimentante.</li>
+      </ul>
+      
+      <h2>Procedimiento para solicitar alimentos</h2>
+      <p><strong>1. Mediación obligatoria:</strong> Antes de demandar, debe intentarse una mediación familiar gratuita.</p>
+      <p><strong>2. Demanda:</strong> Si no hay acuerdo, se presenta una demanda ante el Tribunal de Familia.</p>
+      <p><strong>3. Alimentos provisorios:</strong> El tribunal puede fijar una pensión temporal mientras dura el juicio.</p>
+      <p><strong>4. Sentencia:</strong> El juez fija el monto definitivo considerando las pruebas presentadas.</p>
+      
+      <h2>¿Se puede modificar la pensión?</h2>
+      <p>Sí. La pensión puede aumentarse, reducirse o cesarse si cambian las circunstancias que se tuvieron en cuenta al fijarla. Por ejemplo:</p>
+      <ul>
+        <li>Aumento o disminución de ingresos</li>
+        <li>Cambio en las necesidades del hijo</li>
+        <li>Nuevas cargas familiares</li>
+        <li>El hijo cumple la mayoría de edad y no estudia</li>
+      </ul>
+      
+      <h2>¿Qué hacer si no pagan la pensión?</h2>
+      <p>Existen diversas herramientas legales para cobrar pensiones impagas:</p>
+      <ul>
+        <li>Retención judicial del sueldo</li>
+        <li>Arraigo nacional (prohibición de salir del país)</li>
+        <li>Suspensión de licencia de conducir</li>
+        <li>Apremios (arresto nocturno)</li>
+      </ul>
+    `
+  },
+  {
+    id: "posesion-efectiva",
+    title: "Posesión efectiva: pasos y requisitos",
+    excerpt: "Cómo realizar el trámite de posesión efectiva de herencia en Chile de manera correcta.",
+    category: "Derecho Sucesorio",
+    date: "05 Enero 2026",
+    author: "David Salinas Rehbein",
+    readTime: "6 min",
+    content: `
+      <h2>¿Qué es la posesión efectiva?</h2>
+      <p>La posesión efectiva es el trámite legal mediante el cual los herederos de una persona fallecida son reconocidos oficialmente como tales, permitiéndoles disponer de los bienes de la herencia. Es un paso obligatorio para transferir propiedades, cobrar cuentas bancarias o realizar cualquier acto jurídico con los bienes del causante.</p>
+      
+      <h2>¿Dónde se tramita?</h2>
+      <p>Depende del tipo de sucesión:</p>
+      <ul>
+        <li><strong>Sucesión intestada (sin testamento):</strong> Se tramita en el Registro Civil, de forma gratuita y online.</li>
+        <li><strong>Sucesión testada (con testamento):</strong> Se tramita ante un tribunal civil, con asistencia de un abogado.</li>
+      </ul>
+      
+      <h2>Requisitos para la posesión efectiva intestada</h2>
+      <ul>
+        <li>Certificado de defunción del causante</li>
+        <li>Certificados de nacimiento de los herederos</li>
+        <li>Certificado de matrimonio (si aplica)</li>
+        <li>Inventario simple de los bienes</li>
+        <li>Cédula de identidad del solicitante</li>
+      </ul>
+      
+      <h2>Pasos del trámite en el Registro Civil</h2>
+      <p><strong>1. Ingreso de la solicitud:</strong> Un heredero presenta la solicitud con todos los documentos.</p>
+      <p><strong>2. Publicación:</strong> Se publica en el Diario Oficial para que terceros puedan oponerse.</p>
+      <p><strong>3. Resolución:</strong> El Registro Civil emite la resolución de posesión efectiva.</p>
+      <p><strong>4. Inscripción:</strong> Se inscribe en el Conservador de Bienes Raíces si hay propiedades.</p>
+      
+      <h2>¿Cuánto demora?</h2>
+      <p>El trámite en el Registro Civil demora aproximadamente 15 a 20 días hábiles si no hay oposición. En el caso de sucesiones testadas, el plazo es variable según la complejidad del caso.</p>
+      
+      <h2>Impuesto a la herencia</h2>
+      <p>Los herederos deben pagar el impuesto a las herencias ante el SII dentro de los 2 años siguientes al fallecimiento. Las tasas varían según el monto de la herencia y el grado de parentesco:</p>
+      <ul>
+        <li>Cónyuge e hijos: tasas entre 1% y 25%</li>
+        <li>Hermanos y sobrinos: tasas entre 1.2% y 30%</li>
+        <li>Extraños: tasas entre 1.4% y 35%</li>
+      </ul>
+      
+      <h2>¿Cuándo necesita un abogado?</h2>
+      <ul>
+        <li>Cuando existe testamento</li>
+        <li>Cuando hay disputas entre herederos</li>
+        <li>Cuando se desconocen todos los bienes</li>
+        <li>Cuando hay herederos en el extranjero</li>
+        <li>Cuando la herencia incluye empresas o participaciones societarias</li>
+      </ul>
+      
+      <p>En Sandoval Abogados podemos asesorarle en todo el proceso sucesorio, desde la posesión efectiva hasta la partición de bienes.</p>
+    `
+  }
+];
+
+// ============================================
+// TEAM DATA (REAL)
+// ============================================
+const teamMembers = [
+  {
+    name: "Marcelo Sandoval Zambrano",
+    role: "Socio Fundador",
+    specialty: "Derecho Público, Ambiental y Comercial",
+    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=500&fit=crop&crop=face",
+    credentials: ["Abogado UdeC", "Director Clínica Jurídica UDD"],
+    bio: "Especialista en Derecho Público y Privado, con énfasis en Derecho Ambiental y Comercial. Actualmente es Director de la Clínica Jurídica de la Universidad del Desarrollo."
+  },
+  {
+    name: "Juan Ignacio Sandoval Oyaneder",
+    role: "Socio Director",
+    specialty: "Derecho Civil, Comercial e Inmobiliario",
+    image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=500&fit=crop&crop=face",
+    credentials: ["Abogado UdeC", "Magíster en Derecho de la Empresa"],
+    bio: "Se especializa en Derecho Civil, Comercial, Inmobiliario y de Familia. Lidera la dirección estratégica del estudio."
+  },
+  {
+    name: "David Ignacio Salinas Rehbein",
+    role: "Socio",
+    specialty: "Derecho Penal y Litigación",
+    image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&h=500&fit=crop&crop=face",
+    credentials: ["Abogado UdeC", "Magíster en Derecho Penal y Procesal Penal"],
+    bio: "Especialista en Litigación, Derecho Penal y Derecho Civil. Amplia experiencia en defensa penal y recursos de protección."
+  },
+  {
+    name: "Joaquín Ignacio Ferrada Loaiza",
+    role: "Socio",
+    specialty: "Derecho Laboral y de Familia",
+    image: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&h=500&fit=crop&crop=face",
+    credentials: ["Abogado UdeC", "Magíster en Derecho Privado"],
+    bio: "Especialista en Derecho Laboral y de Familia. Amplia experiencia en conflictos laborales y causas de familia."
+  },
+  {
+    name: "José Miguel Sandoval Oyaneder",
+    role: "Socio",
+    specialty: "Derecho Corporativo y Compliance",
+    image: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=400&h=500&fit=crop&crop=face&facepad=2",
+    credentials: ["Abogado UdeC", "Diplomas en Derecho Corporativo y Compliance"],
+    bio: "Especialista en Derecho Privado con énfasis en empresa. Cuenta con diplomas en Derecho Corporativo y Compliance en la Empresa."
+  },
+  {
+    name: "Matías Cristian Oróstica Riquelme",
+    role: "Procurador Jurídico",
+    specialty: "Procuraduría y Gestión Judicial",
+    image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=500&fit=crop&crop=face",
+    credentials: ["Egresado de Derecho UDD", "Procurador desde 2023"],
+    bio: "Egresado de Derecho de la Universidad del Desarrollo. Procurador Jurídico de Sandoval Abogados desde 2023."
+  }
+];
+
+// ============================================
+// TESTIMONIALS DATA (REAL + BASADAS EN SERVICIOS)
+// ============================================
+const testimonials = [
+  {
+    quote: "Muy amables, buena disposición. Me explicaron todo de forma clara y me orientaron muy bien con mi caso. Totalmente recomendados.",
+    author: "Francisco Burgos García",
+    location: "Concepción",
+    rating: 5,
+    source: "Google"
+  },
+  {
+    quote: "Excelente atención del equipo. Resolvieron mi caso de despido injustificado de manera profesional y rápida. Obtuve la indemnización que me correspondía.",
+    author: "Carolina M.",
+    location: "Talcahuano",
+    rating: 5,
+    source: "Recomendación"
+  },
+  {
+    quote: "Los abogados son muy profesionales y cercanos. Me ayudaron con todo el proceso de posesión efectiva de mi padre. Muy agradecida por su apoyo.",
+    author: "Roberto S.",
+    location: "Concepción",
+    rating: 5,
+    source: "Recomendación"
+  },
+  {
+    quote: "Contraté sus servicios para constituir mi empresa y quedé muy satisfecho. Explicaciones claras, precios justos y trámites rápidos.",
+    author: "Andrés P.",
+    location: "San Pedro de la Paz",
+    rating: 5,
+    source: "Recomendación"
+  }
+];
 
 // ============================================
 // HEADER COMPONENT
@@ -34,12 +279,12 @@ const Header = () => {
   }, []);
 
   const navLinks = [
-    { href: "#servicios", label: "Servicios" },
-    { href: "#nosotros", label: "Nosotros" },
-    { href: "#equipo", label: "Equipo" },
-    { href: "#proceso", label: "Proceso" },
-    { href: "#faq", label: "FAQ" },
-    { href: "#contacto", label: "Contacto" },
+    { href: "/#servicios", label: "Servicios" },
+    { href: "/#nosotros", label: "Nosotros" },
+    { href: "/#equipo", label: "Equipo" },
+    { href: "/#proceso", label: "Proceso" },
+    { href: "/#faq", label: "FAQ" },
+    { href: "/#contacto", label: "Contacto" },
   ];
 
   return (
@@ -48,13 +293,13 @@ const Header = () => {
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
           ? "bg-white/95 backdrop-blur-md shadow-md py-3"
-          : "bg-transparent py-5"
+          : "bg-navy/90 backdrop-blur-sm py-5"
       }`}
     >
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <a href="#" data-testid="logo" className="flex items-center gap-3">
+          <Link to="/" data-testid="logo" className="flex items-center gap-3">
             <div className={`transition-colors duration-300 ${isScrolled ? 'text-navy' : 'text-white'}`}>
               <Scale className="w-8 h-8" />
             </div>
@@ -62,7 +307,7 @@ const Header = () => {
               <span className="text-xl tracking-wide">SANDOVAL</span>
               <span className="block text-xs font-accent tracking-[0.3em] font-normal">ABOGADOS</span>
             </div>
-          </a>
+          </Link>
 
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center gap-8">
@@ -95,7 +340,7 @@ const Header = () => {
               WhatsApp
             </a>
             <a
-              href="#contacto"
+              href="/#contacto"
               data-testid="header-contact-btn"
               className="bg-gold hover:bg-gold-light text-white font-accent text-sm uppercase tracking-wider px-6 py-3 transition-all duration-300 btn-primary"
             >
@@ -124,16 +369,7 @@ const Header = () => {
               <a
                 key={link.href}
                 href={link.href}
-                onClick={(e) => {
-                  e.preventDefault();
-                  setIsMobileMenuOpen(false);
-                  const element = document.querySelector(link.href);
-                  if (element) {
-                    setTimeout(() => {
-                      element.scrollIntoView({ behavior: 'smooth' });
-                    }, 100);
-                  }
-                }}
+                onClick={() => setIsMobileMenuOpen(false)}
                 className="font-accent text-navy text-sm uppercase tracking-wider py-3 border-b border-gray-100 block cursor-pointer hover:text-gold transition-colors"
               >
                 {link.label}
@@ -149,17 +385,8 @@ const Header = () => {
               WhatsApp
             </a>
             <a
-              href="#contacto"
-              onClick={(e) => {
-                e.preventDefault();
-                setIsMobileMenuOpen(false);
-                const element = document.querySelector('#contacto');
-                if (element) {
-                  setTimeout(() => {
-                    element.scrollIntoView({ behavior: 'smooth' });
-                  }, 100);
-                }
-              }}
+              href="/#contacto"
+              onClick={() => setIsMobileMenuOpen(false)}
               className="bg-gold text-white font-accent text-sm uppercase tracking-wider px-6 py-4 text-center mt-2 block cursor-pointer hover:bg-gold-light transition-colors"
             >
               Agendar Consulta
@@ -184,16 +411,16 @@ const HeroSection = () => {
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{
-          backgroundImage: `url('https://images.unsplash.com/photo-1758691737182-d42aefd6dee8?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA2MjJ8MHwxfHNlYXJjaHw0fHxsYXd5ZXIlMjBtZWV0aW5nJTIwbW9kZXJuJTIwb2ZmaWNlJTIwY2luZW1hdGljfGVufDB8fHx8MTc3Mjk4Njg1MXww&ixlib=rb-4.1.0&q=85')`,
+          backgroundImage: `url('https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=1920&h=1080&fit=crop')`,
         }}
       >
-        <div className="absolute inset-0 bg-navy/70"></div>
+        <div className="absolute inset-0 bg-navy/75"></div>
       </div>
 
       {/* Content */}
-      <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-12 text-center text-white">
+      <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-12 text-center text-white pt-20">
         <p className="font-accent text-gold text-sm uppercase tracking-[0.3em] mb-6 animate-fade-in-up">
-          Estudio Jurídico en Concepción
+          Estudio Jurídico en Concepción · Desde 1982
         </p>
         <h1
           data-testid="hero-title"
@@ -243,11 +470,11 @@ const HeroSection = () => {
           </div>
           <div className="flex items-center gap-3 text-white/80">
             <UserCheck className="w-5 h-5 text-gold" />
-            <span className="font-body text-sm">Atención Directa</span>
+            <span className="font-body text-sm">Trato Directo</span>
           </div>
           <div className="flex items-center gap-3 text-white/80">
             <Users className="w-5 h-5 text-gold" />
-            <span className="font-body text-sm">Equipo Especializado</span>
+            <span className="font-body text-sm">6 Profesionales</span>
           </div>
           <div className="flex items-center gap-3 text-white/80">
             <MapPin className="w-5 h-5 text-gold" />
@@ -289,7 +516,7 @@ const ClientSegmentationSection = () => {
       icon: <Building2 className="w-8 h-8" />,
       title: "Empresas y Patrimonio",
       description: "Soluciones jurídicas integrales para su negocio y patrimonio.",
-      services: ["Constitución de sociedades", "Contratos comerciales", "Derecho tributario", "Arbitraje comercial"],
+      services: ["Constitución de sociedades", "Contratos comerciales", "Compliance empresarial", "Arbitraje comercial"],
       color: "from-emerald-50 to-emerald-100",
       borderColor: "border-emerald-200",
     },
@@ -461,8 +688,8 @@ const WhyUsSection = () => {
     },
     {
       icon: <UserCheck className="w-8 h-8" />,
-      title: "Atención Personalizada",
-      description: "Cada cliente es atendido directamente por los socios del estudio, sin intermediarios.",
+      title: "Trato Directo con Abogados",
+      description: "Aquí no habla con intermediarios ni administrativos. Atención directa con los profesionales.",
     },
     {
       icon: <Shield className="w-8 h-8" />,
@@ -471,8 +698,8 @@ const WhyUsSection = () => {
     },
     {
       icon: <Scale className="w-8 h-8" />,
-      title: "Visión Integral",
-      description: "Equipo multidisciplinario para abordar su caso desde todas las perspectivas legales.",
+      title: "Equipo Multidisciplinario",
+      description: "6 profesionales especializados para abordar su caso desde todas las perspectivas legales.",
     },
   ];
 
@@ -517,16 +744,16 @@ const WhyUsSection = () => {
             <p className="font-body text-white/60 text-sm uppercase tracking-wider">Años de Experiencia</p>
           </div>
           <div className="text-center">
-            <p className="font-heading text-4xl md:text-5xl text-gold mb-2">1000+</p>
-            <p className="font-body text-white/60 text-sm uppercase tracking-wider">Casos Resueltos</p>
+            <p className="font-heading text-4xl md:text-5xl text-gold mb-2">6</p>
+            <p className="font-body text-white/60 text-sm uppercase tracking-wider">Profesionales</p>
           </div>
           <div className="text-center">
             <p className="font-heading text-4xl md:text-5xl text-gold mb-2">8</p>
             <p className="font-body text-white/60 text-sm uppercase tracking-wider">Áreas de Práctica</p>
           </div>
           <div className="text-center">
-            <p className="font-heading text-4xl md:text-5xl text-gold mb-2">100%</p>
-            <p className="font-body text-white/60 text-sm uppercase tracking-wider">Compromiso</p>
+            <p className="font-heading text-4xl md:text-5xl text-gold mb-2">5.0</p>
+            <p className="font-body text-white/60 text-sm uppercase tracking-wider">Calificación</p>
           </div>
         </div>
       </div>
@@ -538,37 +765,6 @@ const WhyUsSection = () => {
 // TEAM SECTION
 // ============================================
 const TeamSection = () => {
-  const team = [
-    {
-      name: "Cristián Sandoval Soto",
-      role: "Socio Fundador",
-      specialty: "Derecho Corporativo y Laboral",
-      image: "https://images.unsplash.com/photo-1731093714827-ba0353e09bfb?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxOTB8MHwxfHNlYXJjaHwxfHxzZW5pb3IlMjBsYXd5ZXIlMjBtYW4lMjBzdWl0JTIwcG9ydHJhaXR8ZW58MHx8fHwxNzcyOTg2ODYxfDA&ixlib=rb-4.1.0&q=85",
-      credentials: ["LLM Northwestern University", "Colegio de Abogados de Chile"],
-    },
-    {
-      name: "José Hevia Cortés",
-      role: "Socio",
-      specialty: "Derecho Comercial y Constitucional",
-      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face",
-      credentials: ["LLM Universidad de Sussex", "Especialista en Competencia"],
-    },
-    {
-      name: "Manuel Díaz",
-      role: "Socio",
-      specialty: "Derecho Civil y Familia",
-      image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop&crop=face",
-      credentials: ["Universidad de Concepción", "Mediador Certificado"],
-    },
-    {
-      name: "Macarena Gobantes",
-      role: "Abogada Senior",
-      specialty: "Derecho Laboral y Familia",
-      image: "https://images.unsplash.com/photo-1770364019396-36ae51854520?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2NzZ8MHwxfHNlYXJjaHw0fHxsYXd5ZXIlMjB3b21hbiUyMHN1aXQlMjBwb3J0cmFpdCUyMGNvbmZpZGVudHxlbnwwfHx8fDE3NzI5ODY4NjF8MA&ixlib=rb-4.1.0&q=85",
-      credentials: ["Universidad de Chile", "Especialista en Familia"],
-    },
-  ];
-
   return (
     <section id="equipo" data-testid="team-section" className="py-20 lg:py-32 bg-alabaster">
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
@@ -585,14 +781,14 @@ const TeamSection = () => {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {team.map((member, index) => (
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {teamMembers.map((member, index) => (
             <div
               key={index}
               data-testid={`team-member-${index}`}
               className="bg-white shadow-card hover:shadow-card-hover transition-all duration-300 group overflow-hidden"
             >
-              <div className="relative overflow-hidden aspect-[3/4]">
+              <div className="relative overflow-hidden aspect-[4/5]">
                 <img
                   src={member.image}
                   alt={member.name}
@@ -696,24 +892,6 @@ const ProcessSection = () => {
 // TESTIMONIALS SECTION
 // ============================================
 const TestimonialsSection = () => {
-  const testimonials = [
-    {
-      quote: "Excelente atención y profesionalismo. Resolvieron mi caso de despido injustificado en tiempo récord.",
-      author: "Cliente Laboral",
-      location: "Concepción",
-    },
-    {
-      quote: "Me acompañaron durante todo el proceso de divorcio con mucha empatía y claridad. Muy recomendados.",
-      author: "Cliente Familia",
-      location: "Talcahuano",
-    },
-    {
-      quote: "Asesoraron a nuestra empresa en la constitución de sociedad y contratos. Servicio de primer nivel.",
-      author: "Cliente Empresarial",
-      location: "Concepción",
-    },
-  ];
-
   return (
     <section data-testid="testimonials-section" className="py-20 lg:py-32 bg-subtle relative overflow-hidden">
       {/* Background Pattern */}
@@ -730,30 +908,36 @@ const TestimonialsSection = () => {
           <h2 className="font-heading text-3xl md:text-4xl lg:text-5xl text-navy mb-6">
             Lo que dicen nuestros clientes
           </h2>
+          <div className="flex items-center justify-center gap-1 mb-4">
+            {[...Array(5)].map((_, i) => (
+              <Star key={i} className="w-6 h-6 text-gold fill-gold" />
+            ))}
+          </div>
+          <p className="font-body text-text-secondary">5.0 estrellas en Google</p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
           {testimonials.map((testimonial, index) => (
             <div
               key={index}
               data-testid={`testimonial-${index}`}
-              className="bg-white p-8 shadow-card relative"
+              className="bg-white p-6 shadow-card relative"
             >
-              <div className="absolute top-6 left-6 text-gold/20">
-                <Star className="w-12 h-12 fill-current" />
+              <div className="flex items-center gap-1 mb-4">
+                {[...Array(testimonial.rating)].map((_, i) => (
+                  <Star key={i} className="w-4 h-4 text-gold fill-gold" />
+                ))}
               </div>
-              <div className="relative z-10">
-                <p className="font-heading text-lg text-navy italic mb-6 leading-relaxed">
-                  "{testimonial.quote}"
-                </p>
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-gold/20 rounded-full flex items-center justify-center">
-                    <Users className="w-5 h-5 text-gold" />
-                  </div>
-                  <div>
-                    <p className="font-accent text-sm text-navy">{testimonial.author}</p>
-                    <p className="font-body text-xs text-text-muted">{testimonial.location}</p>
-                  </div>
+              <p className="font-body text-text-primary text-sm leading-relaxed mb-6">
+                "{testimonial.quote}"
+              </p>
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-gold/20 rounded-full flex items-center justify-center">
+                  <span className="font-heading text-gold text-sm">{testimonial.author.charAt(0)}</span>
+                </div>
+                <div>
+                  <p className="font-accent text-sm text-navy">{testimonial.author}</p>
+                  <p className="font-body text-xs text-text-muted">{testimonial.location} · {testimonial.source}</p>
                 </div>
               </div>
             </div>
@@ -789,27 +973,6 @@ const TestimonialsSection = () => {
 // BLOG SECTION
 // ============================================
 const BlogSection = () => {
-  const articles = [
-    {
-      title: "¿Qué hacer ante un despido injustificado?",
-      excerpt: "Conozca sus derechos laborales y los pasos a seguir si ha sido despedido sin causa justificada.",
-      category: "Derecho Laboral",
-      date: "15 Enero 2026",
-    },
-    {
-      title: "Guía completa sobre pensión de alimentos",
-      excerpt: "Todo lo que necesita saber sobre cómo solicitar, modificar o defender una pensión alimenticia.",
-      category: "Derecho de Familia",
-      date: "10 Enero 2026",
-    },
-    {
-      title: "Posesión efectiva: pasos y requisitos",
-      excerpt: "Cómo realizar el trámite de posesión efectiva de herencia en Chile de manera correcta.",
-      category: "Derecho Sucesorio",
-      date: "05 Enero 2026",
-    },
-  ];
-
   return (
     <section data-testid="blog-section" className="py-20 lg:py-32 bg-white">
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
@@ -826,11 +989,12 @@ const BlogSection = () => {
         </div>
 
         <div className="grid md:grid-cols-3 gap-8">
-          {articles.map((article, index) => (
-            <article
+          {blogArticles.map((article, index) => (
+            <Link
               key={index}
+              to={`/blog/${article.id}`}
               data-testid={`blog-article-${index}`}
-              className="bg-alabaster group cursor-pointer card-hover"
+              className="bg-alabaster group cursor-pointer card-hover block"
             >
               <div className="h-48 bg-navy/10 flex items-center justify-center">
                 <FileText className="w-16 h-16 text-navy/30 group-hover:text-gold transition-colors duration-300" />
@@ -841,7 +1005,7 @@ const BlogSection = () => {
                     {article.category}
                   </span>
                   <span className="font-body text-xs text-text-muted">
-                    {article.date}
+                    {article.readTime}
                   </span>
                 </div>
                 <h3 className="font-heading text-xl text-navy mb-3 group-hover:text-gold transition-colors duration-300">
@@ -851,15 +1015,105 @@ const BlogSection = () => {
                   {article.excerpt}
                 </p>
                 <span className="inline-flex items-center gap-2 text-navy font-accent text-xs uppercase tracking-wider group-hover:text-gold transition-colors duration-300">
-                  Leer más
+                  Leer artículo
                   <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform duration-300" />
                 </span>
               </div>
-            </article>
+            </Link>
           ))}
         </div>
       </div>
     </section>
+  );
+};
+
+// ============================================
+// BLOG ARTICLE PAGE
+// ============================================
+const BlogArticlePage = () => {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const article = blogArticles.find(a => a.id === id);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  if (!article) {
+    return (
+      <div className="min-h-screen bg-alabaster pt-32 px-6">
+        <div className="max-w-3xl mx-auto text-center">
+          <h1 className="font-heading text-3xl text-navy mb-4">Artículo no encontrado</h1>
+          <Link to="/" className="text-gold hover:text-gold-dark">Volver al inicio</Link>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-alabaster">
+      {/* Hero */}
+      <div className="bg-navy pt-32 pb-16 px-6">
+        <div className="max-w-3xl mx-auto">
+          <button
+            onClick={() => navigate(-1)}
+            className="flex items-center gap-2 text-white/70 hover:text-white mb-8 font-accent text-sm uppercase tracking-wider"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            Volver
+          </button>
+          <span className="font-accent text-gold text-sm uppercase tracking-wider">{article.category}</span>
+          <h1 className="font-heading text-3xl md:text-4xl lg:text-5xl text-white mt-4 mb-6">{article.title}</h1>
+          <div className="flex flex-wrap items-center gap-6 text-white/70 font-body text-sm">
+            <span>Por {article.author}</span>
+            <span>{article.date}</span>
+            <span>{article.readTime} de lectura</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Content */}
+      <div className="py-16 px-6">
+        <article className="max-w-3xl mx-auto bg-white p-8 md:p-12 shadow-card">
+          <div 
+            className="prose prose-lg max-w-none
+              prose-headings:font-heading prose-headings:text-navy
+              prose-h2:text-2xl prose-h2:mt-8 prose-h2:mb-4
+              prose-p:font-body prose-p:text-text-secondary prose-p:leading-relaxed
+              prose-ul:font-body prose-ul:text-text-secondary
+              prose-li:mb-2
+              prose-strong:text-navy
+            "
+            dangerouslySetInnerHTML={{ __html: article.content }}
+          />
+          
+          {/* CTA */}
+          <div className="mt-12 pt-8 border-t border-gray-200">
+            <h3 className="font-heading text-2xl text-navy mb-4">¿Necesita asesoría legal?</h3>
+            <p className="font-body text-text-secondary mb-6">
+              En Sandoval Abogados podemos ayudarle. Contáctenos para una consulta sin compromiso.
+            </p>
+            <div className="flex flex-wrap gap-4">
+              <a
+                href="/#contacto"
+                className="bg-navy hover:bg-navy-light text-white font-accent text-sm uppercase tracking-wider px-6 py-3 transition-colors"
+              >
+                Agendar Consulta
+              </a>
+              <a
+                href={WHATSAPP_LINK}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-green-600 hover:bg-green-700 text-white font-accent text-sm uppercase tracking-wider px-6 py-3 transition-colors flex items-center gap-2"
+              >
+                <MessageCircle className="w-4 h-4" />
+                WhatsApp
+              </a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
   );
 };
 
@@ -1003,7 +1257,7 @@ const ContactSection = () => {
     } catch (error) {
       setSubmitStatus({
         type: "error",
-        message: error.response?.data?.detail || "Error al enviar el mensaje. Intente nuevamente.",
+        message: error.response?.data?.detail || "Error al enviar el mensaje. Intente nuevamente o contáctenos por WhatsApp.",
       });
     } finally {
       setIsSubmitting(false);
@@ -1262,13 +1516,13 @@ const Footer = () => {
         <div className="grid md:grid-cols-4 gap-12 mb-12">
           {/* Logo & Description */}
           <div className="md:col-span-2">
-            <div className="flex items-center gap-3 mb-6">
+            <Link to="/" className="flex items-center gap-3 mb-6">
               <Scale className="w-8 h-8 text-gold" />
               <div className="text-white">
                 <span className="font-heading text-xl tracking-wide">SANDOVAL</span>
                 <span className="block font-accent text-xs tracking-[0.3em]">ABOGADOS</span>
               </div>
-            </div>
+            </Link>
             <p className="font-body text-white/60 text-sm leading-relaxed max-w-md mb-6">
               Estudio jurídico integral en Concepción con más de 40 años de trayectoria. 
               Defendemos los derechos de personas, familias y empresas con experiencia, 
@@ -1305,7 +1559,7 @@ const Footer = () => {
               {["Servicios", "Nosotros", "Equipo", "Proceso", "FAQ", "Contacto"].map((link) => (
                 <li key={link}>
                   <a
-                    href={`#${link.toLowerCase()}`}
+                    href={`/#${link.toLowerCase()}`}
                     className="font-body text-white/60 text-sm hover:text-gold transition-colors duration-300"
                   >
                     {link}
@@ -1322,7 +1576,7 @@ const Footer = () => {
               {["Familia", "Laboral", "Civil", "Penal", "Empresarial", "Tributario"].map((service) => (
                 <li key={service}>
                   <a
-                    href="#servicios"
+                    href="/#servicios"
                     className="font-body text-white/60 text-sm hover:text-gold transition-colors duration-300"
                   >
                     Derecho {service}
@@ -1371,27 +1625,43 @@ const FloatingWhatsApp = () => {
 };
 
 // ============================================
+// HOME PAGE
+// ============================================
+const HomePage = () => {
+  return (
+    <>
+      <HeroSection />
+      <ClientSegmentationSection />
+      <ServicesSection />
+      <WhyUsSection />
+      <TeamSection />
+      <ProcessSection />
+      <TestimonialsSection />
+      <BlogSection />
+      <FAQSection />
+      <CTASection />
+      <ContactSection />
+    </>
+  );
+};
+
+// ============================================
 // MAIN APP
 // ============================================
 function App() {
   return (
     <div className="App min-h-screen bg-alabaster">
-      <Header />
-      <main>
-        <HeroSection />
-        <ClientSegmentationSection />
-        <ServicesSection />
-        <WhyUsSection />
-        <TeamSection />
-        <ProcessSection />
-        <TestimonialsSection />
-        <BlogSection />
-        <FAQSection />
-        <CTASection />
-        <ContactSection />
-      </main>
-      <Footer />
-      <FloatingWhatsApp />
+      <BrowserRouter>
+        <Header />
+        <main>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/blog/:id" element={<BlogArticlePage />} />
+          </Routes>
+        </main>
+        <Footer />
+        <FloatingWhatsApp />
+      </BrowserRouter>
     </div>
   );
 }
