@@ -1651,7 +1651,7 @@ const HomePage = () => {
 function App() {
   return (
     <div className="App min-h-screen bg-alabaster">
-      <BrowserRouter>
+      <BrowserRouter basename="/sandovalabogados">
         <Header />
         <main>
           <Routes>
