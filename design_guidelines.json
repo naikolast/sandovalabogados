@@ -1,0 +1,208 @@
+{
+  "design_system": {
+    "typography": {
+      "headings": {
+        "font_family": "Playfair Display, serif",
+        "weights": ["400", "600", "700"],
+        "description": "Used for all main headings (H1-H3). Adds authority and elegance."
+      },
+      "body": {
+        "font_family": "Lato, sans-serif",
+        "weights": ["300", "400", "700"],
+        "description": "Clean, highly readable humanist sans-serif for long texts and UI elements."
+      },
+      "accent": {
+        "font_family": "Montserrat, sans-serif",
+        "weights": ["500", "600"],
+        "description": "Used for buttons, navigation, and small labels (uppercase)."
+      }
+    },
+    "colors": {
+      "primary": {
+        "default": "#0A192F",
+        "light": "#1E3A5F",
+        "dark": "#020810",
+        "description": "Deep Navy Blue. Represents trust, institutional solidity, and seriousness."
+      },
+      "secondary": {
+        "default": "#C5A059",
+        "light": "#D4B475",
+        "dark": "#A3823A",
+        "description": "Metallic Gold/Bronze. Used sparingly for borders, active states, and icons. Premium accent."
+      },
+      "background": {
+        "default": "#F9F9F7",
+        "paper": "#FFFFFF",
+        "subtle": "#F0F0EE",
+        "description": "Warm off-white/alabaster base. Avoids sterile blue-whites. Feels like premium stationery."
+      },
+      "text": {
+        "primary": "#1A202C",
+        "secondary": "#4A5568",
+        "muted": "#718096",
+        "inverse": "#FFFFFF"
+      },
+      "status": {
+        "success": "#276749",
+        "error": "#9B2C2C",
+        "info": "#2B6CB0"
+      }
+    },
+    "spacing": {
+      "container_padding": "p-6 md:p-12 lg:p-24",
+      "section_gap": "gap-12 md:gap-24",
+      "element_gap": "gap-4 md:gap-8"
+    },
+    "border_radius": {
+      "default": "rounded-sm",
+      "card": "rounded-md",
+      "button": "rounded-none"
+    },
+    "shadows": {
+      "card": "shadow-[0_4px_20px_rgba(0,0,0,0.05)]",
+      "hover": "shadow-[0_10px_30px_rgba(10,25,47,0.1)]"
+    }
+  },
+  "visual_assets": {
+    "images": [
+      {
+        "id": "hero_bg",
+        "url": "https://images.unsplash.com/photo-1758691737182-d42aefd6dee8?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA2MjJ8MHwxfHNlYXJjaHw0fHxsYXd5ZXIlMjBtZWV0aW5nJTIwbW9kZXJuJTIwb2ZmaWNlJTIwY2luZW1hdGljfGVufDB8fHx8MTc3Mjk4Njg1MXww&ixlib=rb-4.1.0&q=85",
+        "alt": "Lawyers in a professional meeting",
+        "usage": "Hero section background with dark overlay"
+      },
+      {
+        "id": "about_location",
+        "url": "https://images.pexels.com/photos/35190107/pexels-photo-35190107.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+        "alt": "Modern cable stayed bridge in Biobio region",
+        "usage": "About Us section or Location contact card"
+      },
+      {
+        "id": "lawyer_man",
+        "url": "https://images.unsplash.com/photo-1731093714827-ba0353e09bfb?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxOTB8MHwxfHNlYXJjaHwxfHxzZW5pb3IlMjBsYXd5ZXIlMjBtYW4lMjBzdWl0JTIwcG9ydHJhaXR8ZW58MHx8fHwxNzcyOTg2ODYxfDA&ixlib=rb-4.1.0&q=85",
+        "alt": "Senior Partner Portrait",
+        "usage": "Team section"
+      },
+      {
+        "id": "lawyer_woman",
+        "url": "https://images.unsplash.com/photo-1770364019396-36ae51854520?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2NzZ8MHwxfHNlYXJjaHw0fHxsYXd5ZXIlMjB3b21hbiUyMHN1aXQlMjBwb3J0cmFpdCUyMGNvbmZpZGVudHxlbnwwfHx8fDE3NzI5ODY4NjF8MA&ixlib=rb-4.1.0&q=85",
+        "alt": "Associate Partner Portrait",
+        "usage": "Team section"
+      },
+      {
+        "id": "trust_handshake",
+        "url": "https://images.unsplash.com/photo-1704565522499-321a97525d9e?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1NTJ8MHwxfHNlYXJjaHwxfHxoYW5kc2hha2UlMjBjbG9zZSUyMHVwJTIwYnVzaW5lc3MlMjBzdWl0fGVufDB8fHx8MTc3Mjk4Njg2Mnww&ixlib=rb-4.1.0&q=85",
+        "alt": "Business Handshake",
+        "usage": "Trust/Testimonial section background"
+      }
+    ],
+    "icons": {
+      "library": "lucide-react",
+      "style": "Stroke width 1.5px, Gold color (#C5A059)"
+    }
+  },
+  "layout_strategies": {
+    "grid_system": "Bento Grid Mode A (Tetris) for Services. High Density for Information.",
+    "container_width": "max-w-7xl mx-auto",
+    "header_style": "Sticky with backdrop-blur-md. White background on scroll, transparent on Hero (if readable).",
+    "footer_style": "Dark Navy background (#0A192F) with Gold accents."
+  },
+  "components": {
+    "buttons": {
+      "primary": "bg-[#0A192F] text-white hover:bg-[#1E3A5F] rounded-none px-8 py-4 uppercase tracking-widest text-sm font-semibold transition-all duration-300",
+      "secondary": "border border-[#0A192F] text-[#0A192F] hover:bg-[#0A192F] hover:text-white rounded-none px-8 py-4 uppercase tracking-widest text-sm font-semibold transition-all duration-300",
+      "accent": "bg-[#C5A059] text-white hover:bg-[#D4B475] rounded-none px-8 py-4 uppercase tracking-widest text-sm font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
+    },
+    "cards": {
+      "service_card": "bg-white p-8 border-t-4 border-[#C5A059] shadow-sm hover:shadow-lg transition-all duration-300 group cursor-pointer",
+      "testimonial_card": "bg-[#F9F9F7] p-8 relative italic font-serif"
+    },
+    "forms": {
+      "input": "bg-transparent border-b border-[#0A192F]/20 focus:border-[#C5A059] focus:ring-0 rounded-none px-0 py-4 placeholder:text-gray-400 transition-colors"
+    }
+  },
+  "page_structure": {
+    "home": [
+      {
+        "section": "Hero",
+        "elements": [
+          "Full height (min-h-screen)",
+          "Background Image: hero_bg with heavy dark overlay (bg-black/60)",
+          "Headline: 'Defensa Jurídica de Excelencia en Concepción' (H1, Playfair, White)",
+          "Subheadline: 'Trayectoria, confianza y resultados desde 1982.' (Lato, Gray-200)",
+          "CTA: 'Agendar Consulta' (Accent Button)",
+          "Trust Bar: 'Más de 40 años de experiencia' | 'Atención Personalizada' | 'Ubicación Estratégica'"
+        ]
+      },
+      {
+        "section": "About Brief",
+        "elements": [
+          "Split layout: Text Left / Image Right (about_location)",
+          "Headline: 'Sandoval Abogados'",
+          "Content: Focus on local expertise in Biobío and personalized attention."
+        ]
+      },
+      {
+        "section": "Services",
+        "elements": [
+          "Bento Grid Layout",
+          "Categories: Personas/Familias, Trabajadores, Empresas",
+          "Each card has a specific icon and list of sub-services (Divorce, Dismissal, Contracts)"
+        ]
+      },
+      {
+        "section": "Why Us",
+        "elements": [
+          "Dark Section (Navy bg)",
+          "3-4 Pillars: Transparency, Speed, Empathy",
+          "Gold icons"
+        ]
+      },
+      {
+        "section": "Team",
+        "elements": [
+          "Grid of Lawyer profiles (Image + Name + Specialty)",
+          "Clean, professional look"
+        ]
+      },
+      {
+        "section": "Testimonials",
+        "elements": [
+          "Carousel or Grid",
+          "Focus on successful outcomes (anonymized if needed)"
+        ]
+      },
+      {
+        "section": "FAQ",
+        "elements": [
+          "Accordion style (Shadcn)",
+          "Clean lines, minimal clutter"
+        ]
+      },
+      {
+        "section": "Contact",
+        "elements": [
+          "Two columns: Form Left / Info + Map Right",
+          "Form fields: Name, Email, Phone, Case Type, Message",
+          "Map integration (placeholder or static image)"
+        ]
+      }
+    ]
+  },
+  "instructions_to_main_agent": [
+    "INSTALL FONTS: Add Playfair Display and Lato via Google Fonts in index.css.",
+    "CONFIGURE TAILWIND: Update tailwind.config.js with the custom colors (navy, gold, alabaster).",
+    "USE SHADCN: Use Accordion, Sheet (mobile menu), Dialog (modals if needed). customize them to remove rounded corners (set radius to 0 or sm).",
+    "NO ROUNDED CORNERS: Aim for sharp, professional edges (rounded-none or rounded-sm max) to convey seriousness.",
+    "MOBILE FIRST: Ensure padding is massive on desktop but appropriate on mobile.",
+    "NAVIGATION: Create a transparent-to-solid sticky header transition.",
+    "IMAGES: Use the provided URLs. Do not use placeholders.",
+    "DATA-TESTID: Add data-testid to all interactive elements."
+  ],
+  "universal_guidelines": [
+    "Avoid gradients on text.",
+    "Use 2x more whitespace than you think is necessary.",
+    "Micro-interactions on all buttons and links (underline expansion, color shift).",
+    "Ensure high contrast for accessibility (Gold on White needs careful checking, use darker Gold #A3823A for text)."
+  ]
+}
