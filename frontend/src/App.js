@@ -118,14 +118,23 @@ const Header = () => {
 
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
-        <div className="lg:hidden absolute top-full left-0 right-0 bg-white shadow-lg" data-testid="mobile-menu">
+        <div className="lg:hidden absolute top-full left-0 right-0 bg-white shadow-lg z-50" data-testid="mobile-menu">
           <nav className="flex flex-col p-6 gap-4">
             {navLinks.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="font-accent text-navy text-sm uppercase tracking-wider py-2 border-b border-gray-100"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setIsMobileMenuOpen(false);
+                  const element = document.querySelector(link.href);
+                  if (element) {
+                    setTimeout(() => {
+                      element.scrollIntoView({ behavior: 'smooth' });
+                    }, 100);
+                  }
+                }}
+                className="font-accent text-navy text-sm uppercase tracking-wider py-3 border-b border-gray-100 block cursor-pointer hover:text-gold transition-colors"
               >
                 {link.label}
               </a>
@@ -134,15 +143,24 @@ const Header = () => {
               href={WHATSAPP_LINK}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 text-navy font-accent text-sm uppercase tracking-wider py-2"
+              className="flex items-center gap-2 text-navy font-accent text-sm uppercase tracking-wider py-3 hover:text-gold transition-colors"
             >
               <MessageCircle className="w-4 h-4" />
               WhatsApp
             </a>
             <a
               href="#contacto"
-              onClick={() => setIsMobileMenuOpen(false)}
-              className="bg-gold text-white font-accent text-sm uppercase tracking-wider px-6 py-3 text-center mt-2"
+              onClick={(e) => {
+                e.preventDefault();
+                setIsMobileMenuOpen(false);
+                const element = document.querySelector('#contacto');
+                if (element) {
+                  setTimeout(() => {
+                    element.scrollIntoView({ behavior: 'smooth' });
+                  }, 100);
+                }
+              }}
+              className="bg-gold text-white font-accent text-sm uppercase tracking-wider px-6 py-4 text-center mt-2 block cursor-pointer hover:bg-gold-light transition-colors"
             >
               Agendar Consulta
             </a>
