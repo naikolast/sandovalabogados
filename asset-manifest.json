@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/sandovalabogados/static/css/main.ba213e82.css",
-    "main.js": "/sandovalabogados/static/js/main.8af7ee53.js",
+    "main.js": "/sandovalabogados/static/js/main.3df232c5.js",
     "index.html": "/sandovalabogados/index.html",
     "main.ba213e82.css.map": "/sandovalabogados/static/css/main.ba213e82.css.map",
-    "main.8af7ee53.js.map": "/sandovalabogados/static/js/main.8af7ee53.js.map"
+    "main.3df232c5.js.map": "/sandovalabogados/static/js/main.3df232c5.js.map"
   },
   "entrypoints": [
     "static/css/main.ba213e82.css",
-    "static/js/main.8af7ee53.js"
+    "static/js/main.3df232c5.js"
   ]
 }
