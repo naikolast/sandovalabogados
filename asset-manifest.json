@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/sandovalabogados/static/css/main.ba213e82.css",
+    "main.js": "/sandovalabogados/static/js/main.8af7ee53.js",
+    "index.html": "/sandovalabogados/index.html",
+    "main.ba213e82.css.map": "/sandovalabogados/static/css/main.ba213e82.css.map",
+    "main.8af7ee53.js.map": "/sandovalabogados/static/js/main.8af7ee53.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.ba213e82.css",
+    "static/js/main.8af7ee53.js"
+  ]
+}
